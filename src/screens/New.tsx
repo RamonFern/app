@@ -1,5 +1,6 @@
 import { VStack, Heading, Center, ScrollView } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
+import { Feather } from '@expo/vector-icons';
 
 import { Input } from '../components/input';
 import { Button } from '../components/Button';
@@ -8,8 +9,17 @@ type formDataProps = {
   placa: string;
   marcaModelo: string;
   especie: string;
-  codInfracao: string;
   localizacao: string;
+  bandeira: string;
+  codInfracao: string;
+  observacao: string;
+  medidaAdm: string;
+  hora: string;
+  data: string;
+  foto: string;
+  abordagem: boolean;
+  municipio: string;
+
 }
   
 
@@ -21,6 +31,10 @@ export default function New() {
     console.log(data);
   }
 
+  function tiraFoto() {
+    console.log('chama a camera do celular');
+  }
+
 
   return (
     <VStack bgColor="gray.300" flex={1} px={10}>
@@ -28,7 +42,7 @@ export default function New() {
         <Heading my={8}>
           New!
         </Heading>
-        <ScrollView showsVerticalScrollIndicator={false} width='full'>
+        <ScrollView showsVerticalScrollIndicator={false} width='full' marginBottom={16}>
           <Controller
             control={control}
             name='placa'
@@ -82,6 +96,20 @@ export default function New() {
           />
           <Controller
             control={control}
+            name='localizacao'
+            rules={{
+              required: 'Informe a localização',
+            }}
+            render={({ field: { onChange }}) => (
+              <Input 
+              placeholder='Localização da Infracao' 
+              onChangeText={onChange} 
+              errorMessage={errors.localizacao?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
             name='codInfracao'
             rules={{
               required: 'Informe o cod. da infração',
@@ -96,15 +124,91 @@ export default function New() {
           />
           <Controller
             control={control}
-            name='localizacao'
+            name='observacao'
+            // rules={{
+            //   required: 'Informe o cod. da infração',
+            // }}
+            render={({ field: { onChange }}) => (
+              <Input 
+              placeholder='Observação' 
+              onChangeText={onChange}
+              // errorMessage={errors.codInfracao?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='medidaAdm'
+            // rules={{
+            //   required: 'Informe o cod. da infração',
+            // }}
+            render={({ field: { onChange }}) => (
+              <Input 
+              placeholder='medidaAdm' 
+              onChangeText={onChange}
+              // errorMessage={errors.codInfracao?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='hora'
             rules={{
-              required: 'Informe a localização',
+              required: 'Informe a hora',
             }}
             render={({ field: { onChange }}) => (
               <Input 
-              placeholder='Localização da Infracao' 
-              onChangeText={onChange} 
-              errorMessage={errors.localizacao?.message}
+              placeholder='hora' 
+              onChangeText={onChange}
+              errorMessage={errors.hora?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='data'
+            rules={{
+              required: 'Informe a data',
+            }}
+            render={({ field: { onChange }}) => (
+              <Input 
+              placeholder='data' 
+              onChangeText={onChange}
+              errorMessage={errors.data?.message}
+              />
+            )}
+          />
+          <Button 
+            title='Foto'
+            onPress={handleSubmit(tiraFoto)} 
+            marginBottom={4} 
+            backgroundColor='blue.400'
+          />
+          <Controller
+            control={control}
+            name='abordagem'
+            rules={{
+              required: 'Houve abordagem',
+            }}
+            render={({ field: { onChange }}) => (
+              <Input 
+              placeholder='Houve abordagem' 
+              onChangeText={onChange}
+              errorMessage={errors.abordagem?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='municipio'
+            rules={{
+              required: 'Informe o municipio',
+            }}
+            render={({ field: { onChange }}) => (
+              <Input 
+              placeholder='municipio' 
+              onChangeText={onChange}
+              errorMessage={errors.municipio?.message}
               />
             )}
           />
