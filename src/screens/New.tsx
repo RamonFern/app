@@ -1,9 +1,11 @@
-import { VStack, Heading, Center, ScrollView } from 'native-base';
+import { VStack, Heading, Center, ScrollView, View, Button, IconButton, HStack, Icon, Pressable } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
 import { Feather } from '@expo/vector-icons';
-
+// import { AntDesign } from "@expo/vector-icons";
 import { Input } from '../components/input';
-import { Button } from '../components/Button';
+import { Button as ButtonComp } from '../components/Button';
+import React from 'react';
+
 
 type formDataProps = {
   placa: string;
@@ -43,24 +45,36 @@ export default function New() {
           New!
         </Heading>
         <ScrollView showsVerticalScrollIndicator={false} width='full' marginBottom={16}>
-          <Controller
-            control={control}
-            name='placa'
-            rules={{
-              required: 'Informe uma placa',
-              // pattern: {
-              //   // value: /^[a-zA-Z]{3}[0-9][A-Za-z0-9][0-9]{2}$/i,
-              //   message: 'Não existe placa neste formato.'
-              // }
-            }}
-            render={({ field: { onChange }}) => (
-              <Input 
-              placeholder='Digite a placa' 
-              onChangeText={onChange}
-              errorMessage={errors.placa?.message}
-              />
-            )}
-          />
+          
+            <Controller
+              control={control}
+              name='placa'
+              rules={{
+                required: 'Informe uma placa',
+                // pattern: {
+                //   // value: /^[a-zA-Z]{3}[0-9][A-Za-z0-9][0-9]{2}$/i,
+                //   message: 'Não existe placa neste formato.'
+                // }
+              }}
+              render={({ field: { onChange }}) => (
+                <HStack space={2} w='full' justifyContent='flex-end'>
+                  <Input 
+                  width='md'
+                  marginLeft='1/5'
+                  placeholder='Digite a placa' 
+                  onChangeText={onChange}
+                  errorMessage={errors.placa?.message}
+                  />
+                  
+                  <IconButton colorScheme="cyan" width='16' height={60} variant="solid" _icon={{
+                    as: Feather,
+                    name: "search"
+                  }} 
+                  />
+                </HStack>
+              )}
+            />
+            
           
           <Controller
             control={control}
@@ -101,11 +115,20 @@ export default function New() {
               required: 'Informe a localização',
             }}
             render={({ field: { onChange }}) => (
-              <Input 
-              placeholder='Localização da Infracao' 
-              onChangeText={onChange} 
-              errorMessage={errors.localizacao?.message}
-              />
+              <HStack space={2} w='full' justifyContent='flex-end'>
+                <Input
+                width='md'
+                marginLeft='1/5' 
+                placeholder='Localização da Infracao' 
+                onChangeText={onChange} 
+                errorMessage={errors.localizacao?.message}
+                />
+                <IconButton colorScheme="cyan" width='16' height={60} variant="solid" _icon={{
+                    as: Feather,
+                    name: "map-pin"
+                  }} 
+                />
+              </HStack>
             )}
           />
           <Controller
@@ -178,7 +201,7 @@ export default function New() {
               />
             )}
           />
-          <Button 
+          <ButtonComp 
             title='Foto'
             onPress={handleSubmit(tiraFoto)} 
             marginBottom={4} 
@@ -213,7 +236,7 @@ export default function New() {
             )}
           />
 
-          <Button title='Cadastrar' onPress={handleSubmit(handle)}/>
+          <ButtonComp title='Cadastrar' onPress={handleSubmit(handle)}/>
         </ScrollView>
       </Center>
     </VStack>
