@@ -1,10 +1,10 @@
-import { VStack, Heading, Center, ScrollView, View, Button, IconButton, HStack, Icon, Pressable } from 'native-base';
+import { VStack, Heading, Center, ScrollView, IconButton, HStack, TextArea, Button, AlertDialog, Select, CheckIcon } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
 import { Feather } from '@expo/vector-icons';
-// import { AntDesign } from "@expo/vector-icons";
 import { Input } from '../components/input';
 import { Button as ButtonComp } from '../components/Button';
 import React from 'react';
+import { TextAreaInput } from '../components/TextAreaInput';
 
 
 type formDataProps = {
@@ -37,45 +37,68 @@ export default function New() {
     console.log('chama a camera do celular');
   }
 
+  const [isOpen, setIsOpen] = React.useState(false);
 
+  const onClose = () => setIsOpen(false);
+
+  const cancelRef = React.useRef(null);
+
+  const [service, setService] = React.useState("");
   return (
     <VStack bgColor="gray.300" flex={1} px={10}>
       <Center>
         <Heading my={8}>
-          New!
+          App Notifica!
         </Heading>
+        
         <ScrollView showsVerticalScrollIndicator={false} width='full' marginBottom={16}>
+          <IconButton w='full' h={60} 
+            marginBottom={4} 
+            backgroundColor='green' 
+            onPress={handleSubmit(tiraFoto)}
+            variant="solid" 
+            _icon={{
+                as: Feather,
+                name: "camera"
+              }} 
+          />
+          {/* <Button 
+          colorScheme="green" 
+          marginBottom={4}
+          onPress={() => setIsOpen(!isOpen)}>
+            Câmera
+          </Button> */}
+           
           
-            <Controller
-              control={control}
-              name='placa'
-              rules={{
-                required: 'Informe uma placa',
-                // pattern: {
-                //   // value: /^[a-zA-Z]{3}[0-9][A-Za-z0-9][0-9]{2}$/i,
-                //   message: 'Não existe placa neste formato.'
-                // }
-              }}
-              render={({ field: { onChange }}) => (
-                <HStack space={2} w='full' justifyContent='flex-end'>
-                  <Input 
-                  width='md'
-                  marginLeft='1/5'
-                  placeholder='Digite a placa' 
-                  onChangeText={onChange}
-                  errorMessage={errors.placa?.message}
-                  />
-                  
-                  <IconButton colorScheme="cyan" width='16' height={60} variant="solid" _icon={{
-                    as: Feather,
-                    name: "search"
-                  }} 
-                  />
-                </HStack>
-              )}
-            />
+          <Controller
+            control={control}
+            name='placa'
+            rules={{
+              required: 'Informe uma placa',
+              // pattern: {
+              //   // value: /^[a-zA-Z]{3}[0-9][A-Za-z0-9][0-9]{2}$/i,
+              //   message: 'Não existe placa neste formato.'
+              // }
+            }}
+            render={({ field: { onChange }}) => (
+              <HStack space={2} w='full' justifyContent='flex-end'>
+                <Input 
+                width='md'
+                marginLeft='1/5'
+                placeholder='Digite a placa' 
+                onChangeText={onChange}
+                errorMessage={errors.placa?.message}
+                />
+                
+                <IconButton colorScheme="cyan" width='16' height={60} marginTop='0.5' variant="solid" _icon={{
+                  as: Feather,
+                  name: "search"
+                }} 
+                />
+              </HStack>
+            )}
+          />
             
-          
           <Controller
             control={control}
             name='marcaModelo'
@@ -123,7 +146,7 @@ export default function New() {
                 onChangeText={onChange} 
                 errorMessage={errors.localizacao?.message}
                 />
-                <IconButton colorScheme="cyan" width='16' height={60} variant="solid" _icon={{
+                <IconButton colorScheme="cyan" width='16' height={60} marginTop='0.5' variant="solid" _icon={{
                     as: Feather,
                     name: "map-pin"
                   }} 
@@ -148,28 +171,20 @@ export default function New() {
           <Controller
             control={control}
             name='observacao'
-            // rules={{
-            //   required: 'Informe o cod. da infração',
-            // }}
             render={({ field: { onChange }}) => (
-              <Input 
-              placeholder='Observação' 
+              <TextAreaInput
+              placeholder='Observações'
               onChangeText={onChange}
-              // errorMessage={errors.codInfracao?.message}
               />
             )}
           />
           <Controller
             control={control}
             name='medidaAdm'
-            // rules={{
-            //   required: 'Informe o cod. da infração',
-            // }}
             render={({ field: { onChange }}) => (
               <Input 
               placeholder='medidaAdm' 
               onChangeText={onChange}
-              // errorMessage={errors.codInfracao?.message}
               />
             )}
           />
@@ -201,12 +216,7 @@ export default function New() {
               />
             )}
           />
-          <ButtonComp 
-            title='Foto'
-            onPress={handleSubmit(tiraFoto)} 
-            marginBottom={4} 
-            backgroundColor='blue.400'
-          />
+          
           <Controller
             control={control}
             name='abordagem'
